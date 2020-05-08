@@ -1,71 +1,55 @@
-# Play REST API
+# play-scala-starter-example
 
-This is the example project for [Making a REST API in Play](http://developer.lightbend.com/guides/play-rest-api/index.html).
+This is a starter application that shows how Play works.  Please see the documentation at <https://www.playframework.com/documentation/latest/Home> for more details.
 
-## Appendix
+## Running
 
-### Running
-
-You need to download and install sbt for this application to run.
-
-Once you have sbt installed, the following at the command prompt will start up Play in development mode:
+Run this using [sbt](http://www.scala-sbt.org/).  If you downloaded this project from <http://www.playframework.com/download> then you'll find a prepackaged version of sbt in the project directory:
 
 ```bash
 sbt run
 ```
 
-Play will start up on the HTTP port at <http://localhost:9000/>.   You don't need to deploy or reload anything -- changing any source code while the server is running will automatically recompile and hot-reload the application on the next HTTP request.
+And then go to <http://localhost:9000> to see the running web application.
 
-### Usage
+There are several demonstration files available in this template.
 
-If you call the same URL from the command line, you’ll see JSON. Using [httpie](https://httpie.org/), we can execute the command:
+## Controllers
 
-```bash
-http --verbose http://localhost:9000/v1/posts
-```
+- `HomeController.scala`:
 
-and get back:
+  Shows how to handle simple HTTP requests.
 
-```routes
-GET /v1/posts HTTP/1.1
-```
+- `AsyncController.scala`:
 
-Likewise, you can also send a POST directly as JSON:
+  Shows how to do asynchronous programming when handling a request.
 
-```bash
-http --verbose POST http://localhost:9000/v1/posts title="hello" body="world"
-```
+- `CountController.scala`:
 
-and get:
+  Shows how to inject a component into a controller and use the component when
+  handling requests.
 
-```routes
-POST /v1/posts HTTP/1.1
-```
+## Components
 
-### Load Testing
+- `Module.scala`:
 
-The best way to see what Play can do is to run a load test.  We've included Gatling in this test project for integrated load testing.
+  Shows how to use Guice to bind all the components needed by your application.
 
-Start Play in production mode, by [staging the application](https://www.playframework.com/documentation/2.5.x/Deploying) and running the play script:s
+- `Counter.scala`:
 
-```bash
-sbt stage
-cd target/universal/stage
-./bin/play-scala-rest-api-example -Dplay.http.secret.key=some-long-key-that-will-be-used-by-your-application
-```
+  An example of a component that contains state, in this case a simple counter.
 
-Then you'll start the Gatling load test up (it's already integrated into the project):
+- `ApplicationTimer.scala`:
 
-```bash
-sbt ";project gatling;gatling:test"
-```
+  An example of a component that starts when the application starts and stops
+  when the application stops.
 
-For best results, start the gatling load test up on another machine so you do not have contending resources.  You can edit the [Gatling simulation](http://gatling.io/docs/2.2.2/general/simulation_structure.html#simulation-structure), and change the numbers as appropriate.
+## Filters
 
-Once the test completes, you'll see an HTML file containing the load test chart:
+- `Filters.scala`:
 
-```bash
-./play-scala-rest-api-example/target/gatling/gatlingspec-1472579540405/index.html
-```
+  Creates the list of HTTP filters used by your application.
 
-That will contain your load test results.
+- `ExampleFilter.scala`:
+
+  A simple filter that adds a header to every response.
